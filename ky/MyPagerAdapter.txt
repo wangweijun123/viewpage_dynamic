@@ -1,0 +1,43 @@
+public class MyPagerAdapter extends PagerAdapter {
+    private final List<View> views = new ArrayList<>();
+    private final Context context;
+
+    public MyPagerAdapter(Context context) {
+        this.context = context;
+    }
+
+    @Override
+    public int getCount() {
+        return views.size();
+    }
+
+    @Override
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+        return view == object;
+    }
+
+    @NonNull
+    @Override
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        View view = views.get(position);
+        container.addView(view);
+        return view;
+    }
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        container.removeView((View) object);
+    }
+
+    public void addView(View view) {
+        views.add(view);
+        notifyDataSetChanged();
+    }
+
+    public void removeView(int position) {
+        if (position >= 0 && position < views.size()) {
+            views.remove(position);
+            notifyDataSetChanged();
+        }
+    }
+}

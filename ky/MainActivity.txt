@@ -1,0 +1,44 @@
+public class MainActivity extends AppCompatActivity {
+    private ViewPager viewPager;
+    private MyPagerAdapter pagerAdapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        viewPager = findViewById(R.id.viewPager);
+        pagerAdapter = new MyPagerAdapter(this);
+        viewPager.setAdapter(pagerAdapter);
+
+        // 添加初始页面
+        addInitialPages();
+    }
+
+    private void addInitialPages() {
+        for (int i = 1; i <= 2; i++) {
+            View view = createPageView(i);
+            pagerAdapter.addView(view);
+        }
+    }
+
+    private View createPageView(int pageNumber) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.page_view, null);
+        TextView textView = view.findViewById(R.id.textView);
+        textView.setText("Page " + pageNumber);
+        return view;
+    }
+
+    public void addPage(View view) {
+        int newPageNumber = pagerAdapter.getCount() + 1;
+        View newView = createPageView(newPageNumber);
+        pagerAdapter.addView(newView);
+        viewPager.setCurrentItem(newPageNumber - 1);
+    }
+
+    public void removePage(View view) {
+        int currentPage = viewPager.getCurrentItem();
+        pagerAdapter.removeView(currentPage);
+    }
+}
